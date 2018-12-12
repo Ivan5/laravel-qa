@@ -36,4 +36,9 @@ class Question extends Model
             return "unanswered";
         }
     }
+
+    public function getBodyHtmlAttribute()
+    {
+        return \Parsedown::instance()->text($this->body);
+    }
 }
