@@ -17,7 +17,7 @@ class Answer extends Model
     }
 
     public function getStatusAttribute(){
-        return $this->id === $this->question->best_answer_id ? 'vote-accepted' : '';
+        return $this->isBest() ? 'vote-accepted' : '';
     }
 
     public function user()
@@ -41,5 +41,15 @@ class Answer extends Model
         static::deleted(function($answer){
             $answer->question->decrement('answers_count');
         });
+    }
+
+    public function getIsBestAttribute()
+    {
+        return $this->isBest();
+    }
+
+    public function isBest()
+    {
+        return $this->id === $this->question->best_answer_id;
     }
 }
